@@ -442,12 +442,33 @@ public class DefaultSAML2SSOManager implements SAML2SSOManager {
         //nameIdPolicy.setSPNameQualifier("Issuer");
         nameIdPolicy.setAllowCreate(true);
 
-		/* AuthnContextClass */
+        /* AuthnContextClass */
+        /*
+         * Changed for yucca and IDP Shibboleth
+         *     <samlp:RequestedAuthnContext Comparison="exact">
+                <saml:AuthnContextClassRef xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">urn:federation:ac:classes:PasswordPinProtectedTransport</saml:AuthnContextClassRef>
+                <saml:AuthnContextClassRef xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">urn:federation:ac:classes:X509NQ</saml:AuthnContextClassRef>
+                <saml:AuthnContextClassRef xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">urn:federation:ac:classes:X509Q</saml:AuthnContextClassRef>
+            </samlp:RequestedAuthnContext>
+
+         */
         AuthnContextClassRefBuilder authnContextClassRefBuilder = new AuthnContextClassRefBuilder();
         AuthnContextClassRef authnContextClassRef = authnContextClassRefBuilder.buildObject("urn:oasis:names:tc:SAML:2.0:assertion",
                 "AuthnContextClassRef",
                 "saml");
-        authnContextClassRef.setAuthnContextClassRef("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
+        authnContextClassRef.setAuthnContextClassRef("urn:federation:ac:classes:PasswordPinProtectedTransport");
+
+        AuthnContextClassRefBuilder authnContextClassRefBuilder2 = new AuthnContextClassRefBuilder();
+        AuthnContextClassRef authnContextClassRef2 = authnContextClassRefBuilder2.buildObject("urn:oasis:names:tc:SAML:2.0:assertion",
+                "AuthnContextClassRef",
+                "saml");
+        authnContextClassRef2.setAuthnContextClassRef("urn:federation:ac:classes:X509NQ");
+        
+        AuthnContextClassRefBuilder authnContextClassRefBuilder3 = new AuthnContextClassRefBuilder();
+        AuthnContextClassRef authnContextClassRef3 = authnContextClassRefBuilder3.buildObject("urn:oasis:names:tc:SAML:2.0:assertion",
+                "AuthnContextClassRef",
+                "saml");
+        authnContextClassRef3.setAuthnContextClassRef("urn:federation:ac:classes:X509Q");
 
 		/* AuthnContex */
         RequestedAuthnContextBuilder requestedAuthnContextBuilder = new RequestedAuthnContextBuilder();
@@ -455,6 +476,26 @@ public class DefaultSAML2SSOManager implements SAML2SSOManager {
         requestedAuthnContext.setComparison(AuthnContextComparisonTypeEnumeration.EXACT);
         requestedAuthnContext.getAuthnContextClassRefs().add(authnContextClassRef);
 
+        requestedAuthnContext.getAuthnContextClassRefs().add(authnContextClassRef2);
+        requestedAuthnContext.getAuthnContextClassRefs().add(authnContextClassRef3);
+
+		/* AuthnContextClass */
+//        AuthnContextClassRefBuilder authnContextClassRefBuilder = new AuthnContextClassRefBuilder();
+//        AuthnContextClassRef authnContextClassRef = authnContextClassRefBuilder.buildObject("urn:oasis:names:tc:SAML:2.0:assertion",
+//                "AuthnContextClassRef",
+//                "saml");
+//        authnContextClassRef.setAuthnContextClassRef("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
+
+		/* AuthnContex */
+//        RequestedAuthnContextBuilder requestedAuthnContextBuilder = new RequestedAuthnContextBuilder();
+//        RequestedAuthnContext requestedAuthnContext = requestedAuthnContextBuilder.buildObject();
+//        requestedAuthnContext.setComparison(AuthnContextComparisonTypeEnumeration.EXACT);
+//        requestedAuthnContext.getAuthnContextClassRefs().add(authnContextClassRef);
+
+        /*
+         * END Changed for yucca and IDP Shibboleth
+         */
+        
         DateTime issueInstant = new DateTime();
 
 		/* Creation of AuthRequestObject */
