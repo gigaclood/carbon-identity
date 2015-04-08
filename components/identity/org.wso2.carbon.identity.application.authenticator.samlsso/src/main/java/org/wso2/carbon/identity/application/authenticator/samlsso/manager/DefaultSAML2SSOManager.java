@@ -134,7 +134,7 @@ public class DefaultSAML2SSOManager implements SAML2SSOManager {
 
     public void init(String tenantDomain, Map<String, String> properties, IdentityProvider idp)
             throws SAMLSSOException {
-
+    	log.error(">>>>>>>>>>>>>>>>>> INIT CSI PATCH >>>>>>>>>>>>");
         this.tenantDomain = tenantDomain;
         this.identityProvider = idp;
         this.properties = properties;
@@ -441,7 +441,7 @@ public class DefaultSAML2SSOManager implements SAML2SSOManager {
         nameIdPolicy.setFormat("urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified");
         //nameIdPolicy.setSPNameQualifier("Issuer");
         nameIdPolicy.setAllowCreate(true);
-
+        log.error(">>>>>>>>>>>>>>>>>> CSI PATCH >>>>>>>>>>>>");
         /* AuthnContextClass */
         /*
          * Changed for yucca and IDP Shibboleth

@@ -18,6 +18,16 @@
 
 package org.wso2.carbon.identity.application.authenticator.samlsso;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.identity.application.authentication.framework.AbstractApplicationAuthenticator;
@@ -28,26 +38,15 @@ import org.wso2.carbon.identity.application.authentication.framework.exception.A
 import org.wso2.carbon.identity.application.authentication.framework.exception.LogoutFailedException;
 import org.wso2.carbon.identity.application.authentication.framework.util.FrameworkConstants;
 import org.wso2.carbon.identity.application.authentication.framework.util.FrameworkUtils;
+import org.wso2.carbon.identity.application.authenticator.samlsso.exception.SAMLSSOException;
 import org.wso2.carbon.identity.application.authenticator.samlsso.internal.SAMLSSOAuthenticatorServiceComponent;
 import org.wso2.carbon.identity.application.authenticator.samlsso.manager.DefaultSAML2SSOManager;
 import org.wso2.carbon.identity.application.authenticator.samlsso.manager.SAML2SSOManager;
 import org.wso2.carbon.identity.application.authenticator.samlsso.model.StateInfo;
-import org.wso2.carbon.identity.application.authenticator.samlsso.exception.SAMLSSOException;
 import org.wso2.carbon.identity.application.authenticator.samlsso.util.SSOConstants;
 import org.wso2.carbon.identity.application.authenticator.samlsso.util.SSOUtils;
 import org.wso2.carbon.identity.application.common.model.ClaimMapping;
 import org.wso2.carbon.identity.application.common.util.IdentityApplicationConstants;
-import org.wso2.carbon.utils.CarbonUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.*;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
 public class SAMLSSOAuthenticator extends AbstractApplicationAuthenticator implements FederatedApplicationAuthenticator {
 
@@ -332,6 +331,7 @@ public class SAMLSSOAuthenticator extends AbstractApplicationAuthenticator imple
 
         String managerClassName = getAuthenticatorConfig().getParameterMap()
                 .get(SSOConstants.ServerConfig.SAML2_SSO_MANAGER);
+        log.error(">>>>>>>>>>>>>>>>>> CSI PATCH:<"+managerClassName+">>>>>>>>>>>>");
         if (managerClassName != null) {
             try {
                 Class clazz = Class.forName(managerClassName);
